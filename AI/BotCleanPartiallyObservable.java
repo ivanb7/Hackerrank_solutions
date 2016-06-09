@@ -20,9 +20,9 @@ public class BotCleanPartiallyObservable {
     	if(lastBoard == null){
     		saveBoard(board);
     		lastBoard = loadBoard();
-    		
     	}
     	board = mergeBoards(board, lastBoard);
+    	
     	//printing
     	/*
     	printBoard(lastBoard);
@@ -44,7 +44,7 @@ public class BotCleanPartiallyObservable {
     		cleanBoard(board, posr,posc);
     	} 
     	//Pathfinding logic
-    	//Will prioritize going UP > RIGHT > DOWN > LEFT
+    	//Will prioritize going LEFT > RIGHT and UP > DOWN
     	//No obstacles
     	else {
     		if(dest[0] == posr){
@@ -71,6 +71,7 @@ public class BotCleanPartiallyObservable {
     	saveBoard(board);
     }
     
+    //The Bot remembers the state of the board from the previous moves with this method
     public static String[] mergeBoards(String[] board, String[] lastBoard) {
 		String[] res = new String[board.length];
 		String line;
@@ -101,7 +102,7 @@ public class BotCleanPartiallyObservable {
     
 	//Cleans the dirty point at the specified square posr,posc
     //Places a 'b' because the bot cleans it's own location.
-    //METHOD IS NOT COMPLETE
+   
     public static String[] cleanBoard(String[] board,int posr, int posc){
     	if(board[posr].charAt(posc) == 'd'){
     		board[posr] = board[posr].substring(0,posc) + 'b' + board[posr].substring(posc+1);
@@ -156,7 +157,7 @@ public class BotCleanPartiallyObservable {
     	if(!points.isEmpty()){
 	    	for(int[] point : points){
 	    		moves = (Math.abs(point[0] - posr) + Math.abs(point[1] - posc));
-	    		//
+	    		
 	    		//System.out.println("Moves from (" + posr +", " + posc + ") to (" + point[0] + ", " + point[1] + "): " + moves);
 	    		if (moves < minimum){
 	    			resr = point[0];
@@ -188,8 +189,8 @@ public class BotCleanPartiallyObservable {
 			//This one cannot append
 			//PrintWriter writer2 = new PrintWriter("src/midterm/textfile.txt");
 			//True will keep the old text, false will erase the old text
-			
-			PrintWriter writer = new PrintWriter(new FileOutputStream("src/AI/savedBoard.txt", false));
+    		//old file path "src/AI/savedBoard.txt"
+			PrintWriter writer = new PrintWriter(new FileOutputStream("savedBoard.txt", false));
 			for(String line : board){	
 			writer.println(line);
 			}
@@ -206,7 +207,8 @@ public class BotCleanPartiallyObservable {
     	// 5x5 is board size
 		String[] board = new String[5];
 		try{
-			File fileName = new File("src/AI/savedBoard.txt" );
+			//old file path "src/AI/savedBoard.txt"
+			File fileName = new File("savedBoard.txt" );
 	        if( !fileName.exists() )
 	        {
 	            //System.out.println( "this file doesn't exist " );
@@ -221,7 +223,7 @@ public class BotCleanPartiallyObservable {
 	                System.out.println(e);
 	            }
 	        } else {
-			Scanner in = new Scanner(new FileReader("src/AI/savedBoard.txt"));
+			Scanner in = new Scanner(new FileReader("savedBoard.txt"));
 			//5 comes from board size
 			for(int i=0;i<5;i++) board[i] = in.next();
 			in.close();
@@ -241,13 +243,13 @@ public class BotCleanPartiallyObservable {
     	for(int i = 0;i<board.length;i++){
     		line = board[i];
     		for(int j = 0; j<line.length();j++){
-    			////////System.out.println("Looking at : " + j + ", " + i);
+    			//System.out.println("Looking at : " + j + ", " + i);
     			if(line.charAt(j) == 'd'){
     				//add coordinates to results
     				coords[0] = i;
     				coords[1] = j;
     				results.add(coords);
-    				//////////System.out.println("Coords: " + coords[0] + ", " + coords[1]);
+    				//System.out.println("Coords: " + coords[0] + ", " + coords[1]);
     				coords = new int[2];
     			}
     		}
@@ -264,13 +266,13 @@ public class BotCleanPartiallyObservable {
     	for(int i = 0;i<board.length;i++){
     		line = board[i];
     		for(int j = 0; j<line.length();j++){
-    			////////System.out.println("Looking at : " + j + ", " + i);
+    			//System.out.println("Looking at : " + j + ", " + i);
     			if(line.charAt(j) == 'o'){
     				//add coordinates to results
     				coords[0] = i;
     				coords[1] = j;
     				results.add(coords);
-    				//////////System.out.println("Coords: " + coords[0] + ", " + coords[1]);
+    				//System.out.println("Coords: " + coords[0] + ", " + coords[1]);
     				coords = new int[2];
     			}
     		}
